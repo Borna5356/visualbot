@@ -13,7 +13,7 @@ class Coordinates:
     (200, 400), (300, 400), (450, 400), (200, 540),
     (300, 540), (450, 540)]
 
-def start():
+def start_game():
     """
     Moves the mouse to the coordinates
     of the start button and clicks it
@@ -33,10 +33,23 @@ def image_grab(square):
     color = numpy.array(gray_image.getcolors())
     return color.sum()
 
+def click_square(square):
+    pyautogui.click(square)
+
 def main():
+    start_game()
+    time.sleep(.38)
+    selected_squares = []
+    start = time.perf_counter()
     for square in Coordinates.level1_squares:
-        print(image_grab(square))
-        #white squares = 355
+        if (image_grab(square) == 355):
+            selected_squares.append(square)
+    end = time.perf_counter()
+    print(end - start)
+
+    time.sleep(1)
+    for square in selected_squares:
+        click_square(square)
     
 
 main()

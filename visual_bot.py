@@ -1,6 +1,6 @@
 import pyautogui
 import numpy
-import PIL
+from PIL import ImageGrab, ImageOps
 import time
 
 class Coordinates:
@@ -21,8 +21,23 @@ def start():
     """
     pyautogui.click(Coordinates.start_button)
 
+def image_grab(square):
+    """
+    Takes a screenshot of the game
+    
+    """
+    area = (square[0], square[1],
+    square[0] + 10, square[1] + 10)
+    image = ImageGrab.grab(area)
+    gray_image = ImageOps.grayscale(image)
+    color = numpy.array(gray_image.getcolors())
+    return color.sum()
+
 def main():
-    start()
+    for square in Coordinates.level1_squares:
+        print(image_grab(square))
+        #white squares = 355
+    
 
 main()
 
